@@ -1,0 +1,28 @@
+diff --git Makefile Makefile
+index 44417aa..b8078ad 100644
+--- Makefile
++++ Makefile
+@@ -1,5 +1,5 @@
+ CC = gcc
+-CFLAGS = -O2
++CFLAGS = -O2 -DHAVE_openpty -lutil
+ VERSION = 1.0.8
+ 
+ TARGET = ttyrec ttyplay ttytime
+diff --git ttyrec.c ttyrec.c
+index 3392f70..ed606f1 100644
+--- ttyrec.c
++++ ttyrec.c
+@@ -71,8 +71,12 @@
+ #define _(FOO) FOO
+ 
+ #ifdef HAVE_openpty
++#ifdef linux
++#include <bsd/libutil.h>
++#else
+ #include <libutil.h>
+ #endif
++#endif
+ 
+ #if defined(SVR4) && !defined(CDEL)
+ #if defined(_POSIX_VDISABLE)
